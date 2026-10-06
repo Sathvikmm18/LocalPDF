@@ -1,162 +1,249 @@
-# LocalPDF
+# DocuFlow — Your Personal PDF Workspace
 
-**A free, local-first PDF toolkit for your Mac.**
+A free, locally run PDF toolkit for converting, organizing, and managing documents on your own computer.
 
-LocalPDF is a personal document workspace for converting, organizing, and managing PDFs without relying on online conversion websites or paying for premium plans just to process multiple files.
+## Why I built DocuFlow
 
-I built this project for my own use after running into limits on free online PDF tools. Many services restrict free conversions to a small number of documents or ask users to upgrade when they need to process a larger batch. LocalPDF gives me a workspace I control, where I can process multiple documents in one workflow.
+When I used free online PDF tools, I often ran into limits on how many documents I could convert at once. Converting a few files was free, but processing a larger batch—such as 10–15 Word documents—could require a premium subscription. I built DocuFlow for my own use so I could process documents locally without relying on online conversion services or paying just to unlock a larger batch.
 
-> **Privacy-first by design:** files are processed by the application running on your own computer. Keep the backend bound to `127.0.0.1` for local-only access.
+## Screenshots
 
-## Preview
+### 1. DocuFlow workspace
+![DocuFlow home page](docs/images/localpdf-home.png)
 
-![LocalPDF application preview](docs/assets/localpdf-preview.png)
+### 2. Frontend development server
+![Vite frontend running](docs/images/localpdf-frontend-running.png)
 
-## Why I built LocalPDF
-
-I wanted a practical alternative to online PDF tools that:
-
-- Lets me convert **multiple documents in one batch**, rather than being restricted to a few free conversions.
-- Avoids recurring subscriptions or premium upgrades for my personal workflow.
-- Keeps my documents on my own computer instead of requiring uploads to a third-party conversion website.
-- Brings common PDF tasks into one clean, easy-to-use workspace.
-- Gives me control over my document library and the files I choose to keep.
-
-This started as a personal productivity project. The goal is simple: **useful PDF tools, without unnecessary limits or subscriptions.**
+### 3. Backend API server
+![FastAPI backend running](docs/images/localpdf-backend-running.png)
 
 ## Features
 
-### Convert
-- **Word to PDF** — convert DOCX and supported Office documents to PDF.
-- **Batch Word-to-PDF** — process multiple documents in one workflow.
-- **Images to PDF** — combine image files into a PDF.
-- **PDF to JPG** — export PDF pages as JPG images in a ZIP archive.
-
-### Organize
-- **Merge PDF** — combine multiple PDFs in the selected order.
-- **Split PDF** — extract a page range from a PDF.
+- **Word to PDF** — convert DOCX and supported Office documents; batch conversion is designed to help process multiple documents.
+- **Merge PDF** — combine PDF files in the order you choose.
+- **Split PDF** — extract selected pages or a page range.
 - **Rotate PDF** — rotate all pages or selected pages.
-
-### Edit and protect
+- **Compress PDF** — reduce file size where possible.
+- **Images to PDF** — convert JPG/PNG images into a PDF.
+- **PDF to JPG** — export PDF pages as JPG images in a ZIP archive.
 - **Page numbers** — add page numbers to PDF pages.
-- **Watermark** — stamp text across PDF pages.
+- **Watermark** — stamp text onto pages.
 - **Protect PDF** — encrypt a PDF with a password.
+- **Local document library** — manage documents stored on the computer running the backend.
+- **Local-first processing** — use the app on your own machine instead of uploading documents to a third-party website.
 
-### Personal workspace
-- **My Library** — access files saved by the local application.
-- **Manual deletion** — remove files you no longer need.
-- **Local processing** — run the frontend and backend on your own machine.
-
-> Available operations depend on the installed dependencies and supported file formats. Office conversion may require LibreOffice to be installed.
+Conversion support and output quality can depend on the input file and installed local tools.
 
 ## Tech stack
 
 - **Frontend:** React, Vite, JavaScript, HTML, CSS
 - **Backend:** Python, FastAPI, Uvicorn
-- **Document processing:** Python PDF/image libraries and LibreOffice for Office conversion (where configured)
-- **Development tools:** npm, Python virtual environment, Git
-
-## Run locally on macOS
-
-### Prerequisites
-
-- Python 3
-- Node.js and npm
-- LibreOffice, if required for Word/Office conversion
-
-### 1. Open the project
-
-In Terminal, navigate to the project folder. Example:
-
-```bash
-cd ~/Downloads/LocalPDF
-```
-
-Use your actual folder path if the project is stored elsewhere.
-
-### 2. Start the backend
-
-Open a Terminal tab/window and run:
-
-```bash
-cd ~/Downloads/LocalPDF/backend
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
-```
-
-If you have already created `.venv` and installed the dependencies, start it with:
-
-```bash
-cd ~/Downloads/LocalPDF/backend
-source .venv/bin/activate
-python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
-```
-
-The backend should be available at `http://127.0.0.1:8000`. If FastAPI's interactive docs are enabled, visit `http://127.0.0.1:8000/docs`.
-
-Keep this terminal running while using LocalPDF.
-
-### 3. Start the frontend
-
-Open a **second** Terminal tab/window:
-
-```bash
-cd ~/Downloads/LocalPDF/frontend
-npm install
-npm run dev
-```
-
-Open the local URL printed by Vite, commonly `http://localhost:5173`.
-
-### 4. Stop the application
-
-Press `Control + C` in each Terminal window running the backend and frontend.
+- **Storage:** Local filesystem for the document library
+- **Document processing:** Python PDF/image libraries and any local conversion tools used by the backend
 
 ## Project structure
 
 ```text
-LocalPDF/
+DocuFlow/
 ├── backend/
 │   ├── main.py
 │   ├── requirements.txt
 │   ├── .gitignore
-│   └── data/                 # Local files; do not commit personal documents
+│   └── data/                 # Local document library; do not commit user files
 ├── frontend/
 │   ├── src/
 │   ├── index.html
 │   ├── package.json
 │   └── package-lock.json
 ├── docs/
-│   └── assets/
-│       └── localpdf-preview.png
-├── .gitignore
+│   └── images/               # README screenshots
 └── README.md
 ```
 
-Your exact structure may vary depending on your local changes.
+## Requirements (Windows, macOS, and Linux)
+
+- Python 3
+- Node.js and npm
+- LibreOffice installed and available to the backend if your Word-to-PDF implementation uses LibreOffice for document conversion
+
+Check versions:
+
+```bash
+python --version
+python3 --version
+node --version
+npm --version
+```
+
+On Windows, `python --version` is normally used. On macOS/Linux, use `python3 --version` if `python` is not available.
+
+## Run locally on Windows
+
+Use **PowerShell** or the VS Code terminal set to PowerShell. Open two terminal tabs and keep both servers running.
+
+### 1. Start the backend
+
+```powershell
+cd path\to\DocuFlow\backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+Replace `path\to\DocuFlow\backend` with the actual path to your `backend` folder.
+
+If PowerShell blocks virtual-environment activation, you can allow it for the current terminal session only:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+```
+
+Alternatively, skip activation and invoke the virtual environment's Python directly:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+Backend URL: `http://127.0.0.1:8000`  
+API documentation, if enabled: `http://127.0.0.1:8000/docs`
+
+### 2. Start the frontend
+
+In a second terminal:
+
+```powershell
+cd path\to\DocuFlow\frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, typically `http://localhost:5173/`.
+
+### 3. Stop the servers
+
+Press `Ctrl + C` in each terminal.
+
+## Run locally on macOS
+
+Open two terminal tabs and keep both servers running.
+
+### 1. Start the backend
+
+From the project's `backend` directory:
+
+```bash
+cd /path/to/DocuFlow/backend
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+The backend command used during development is:
+
+```bash
+python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+### 2. Start the frontend
+
+In a second terminal:
+
+```bash
+cd /path/to/DocuFlow/frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, typically `http://localhost:5173/`.
+
+### 3. Stop the servers
+
+Press `Control + C` in each terminal.
+
+## Run locally on Linux
+
+Open two terminal tabs.
+
+### 1. Start the backend
+
+```bash
+cd /path/to/DocuFlow/backend
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+### 2. Start the frontend
+
+```bash
+cd /path/to/DocuFlow/frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite.
 
 ## Privacy and security
 
-- Keep the backend bound to `127.0.0.1` when you want it accessible only from your Mac.
-- Do not commit personal documents, generated PDFs, passwords, API keys, `.env` files, virtual environments, or `node_modules`.
-- This is designed for local use. Before exposing the backend publicly, review authentication, access controls, CORS, file handling, and deployment security.
-- “Local” describes the intended setup; it does not mean every dependency has been independently audited. Review the code and dependencies before using sensitive documents.
-- Keep backups of important documents. A local library is not a backup.
+- In the local setup above, the backend processes files on your own computer.
+- The local library may contain personal documents. Keep `backend/data/` excluded from Git.
+- Never commit personal PDFs, exported ZIPs, `.env` files, API keys, passwords, `.venv/`, or `node_modules/`.
+- The backend binds to `127.0.0.1`, so this development configuration is intended for access from the same computer, not as a public production service.
+- Keep backups of important files and verify important converted documents before relying on them.
 
-## Project status
+## Contributing
 
-LocalPDF is a personal project built to meet my own document-conversion and PDF-management needs. Features and compatibility may change as development continues.
+Contributions, bug reports, and feature suggestions are welcome. Fork the repository, create a branch for your change, test it locally, and open a pull request with a clear description of the change.
 
-## Possible future improvements
+Before contributing, please avoid committing personal documents, generated exports, secrets, or local environment folders.
 
-- Additional conversion formats and batch-processing options
-- Drag-and-drop file handling
-- Clearer conversion progress and error messages
-- More compression controls
-- Automated tests and easier installation
+## Troubleshooting
 
-## License
+### `uvicorn` is not found
 
-No license has been specified yet. If you publish this repository on GitHub, add a license file if you want to define how others may use, modify, and distribute the project.
+Run Uvicorn through the Python environment instead of calling the `uvicorn` executable directly.
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+macOS/Linux:
+
+```bash
+python3 -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+If dependencies are missing, activate the virtual environment and install `backend/requirements.txt`.
+
+### Frontend dependencies are missing
+
+Run these commands from the `frontend` directory:
+
+```bash
+npm install
+npm run dev
+```
+
+### Word-to-PDF conversion fails
+
+Check that the document format is supported and that any required conversion software, such as LibreOffice, is installed and available to the backend process.
+
+## Disclaimer
+
+DocuFlow is a personal project provided as-is. Some files may not convert perfectly; check important output before submitting or sharing it.
+
+## Author
+
+**Sathvik M M**
+
+Built to make common PDF tasks easier, more private, and less dependent on premium online tools.
