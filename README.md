@@ -1,4 +1,4 @@
-# DocuFlow — private, local PDF toolkit
+# LocalPDF — private, local PDF toolkit
 
 A local-first iLovePDF-style starter for macOS. Files are stored under `backend/data/library` and remain there until you delete them in the Library screen or remove the folder manually. No cloud service or paid API is used.
 
