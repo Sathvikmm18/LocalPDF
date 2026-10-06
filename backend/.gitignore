@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.env
+
+# Node
+node_modules/
+dist/
+
+# Local PDF library and generated files
+backend/data/
+*.pdf
+*.zip
+
+# macOS
+.DS_Store
